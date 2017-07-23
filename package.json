@@ -1,0 +1,48 @@
+{
+    "name": "node-workman",
+    "version": "1.0.0",
+    "main": "dist/index.js",
+    "repository": "https://github.com/lietu/node-workman",
+    "author": "Janne \"Lietu\" Enberg",
+    "license": "MIT",
+    "scripts": {
+        "build": "tsc",
+        "dev": "concurrently --kill-others --prefix name --names tsc,server \"yarn run watch-ts\" \"yarn run start-dev\"",
+        "test": "jest --watch",
+        "test-once": "jest",
+        "start": "node dist/index.js",
+        "start-dev": "nodemon --legacy-watch dist/index.js",
+        "watch-ts": "tsc -w"
+    },
+    "jest": {
+        "transform": {
+            ".(ts|tsx)": "./node_modules/ts-jest/preprocessor.js"
+        },
+        "testRegex": "src/(.*/)?__tests__/.*\\.(ts|tsx)$",
+        "setupFiles": ["./setup-jest.js"],
+        "moduleFileExtensions": [
+            "ts",
+            "tsx",
+            "js"
+        ]
+    },
+    "devDependencies": {
+        "@types/hapi": "^16.1.6",
+        "@types/jest": "^20.0.4",
+        "@types/node": "^8.0.15",
+        "@types/winston": "^2.3.3",
+        "concurrently": "^3.5.0",
+        "jest": "^20.0.4",
+        "nodemon": "^1.11.0",
+        "ts-jest": "^20.0.7",
+        "tslint": "^5.5.0",
+        "typescript": "^2.4.2"
+    },
+    "dependencies": {
+        "hapi": "^16.5.0",
+        "hapi-async-handler": "^1.0.3",
+        "hapi-plugin-websocket": "^1.2.13",
+        "source-map-support": "^0.4.15",
+        "winston": "^2.3.1"
+    }
+}

@@ -1,0 +1,24 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "sourceMap": true,
+        "outDir": "dist",
+        "rootDir": "src",
+        "moduleResolution": "node",
+        "forceConsistentCasingInFileNames": true,
+        "noImplicitReturns": true,
+        "noImplicitThis": true,
+        "noImplicitAny": true,
+        "strictNullChecks": true,
+        "suppressImplicitAnyIndexErrors": true,
+        "noUnusedLocals": true,
+        "skipLibCheck": true,
+        "target": "es6",
+        "declaration": true
+    },
+    "exclude": [
+        "dist/**",
+        "node_modules/**",
+        "**/__tests__"
+    ]
+}
