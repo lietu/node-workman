@@ -84,7 +84,7 @@ Feel free to contribute an optional authentication scheme in the project.
 
 ### GET /tasks
 
-Get a [list of registered tasks](###task-list).
+Get a [list of registered tasks](#task-list).
 
 
 ### POST /task/{name}
@@ -114,7 +114,7 @@ With the default configuration the server listens to the address
 
 ### Get tasks
 
-Get a [list of registered tasks](###task-list).
+Get a [list of registered tasks](#task-list).
 
 ```json
 > {"action": "GetTasks"}
