@@ -89,7 +89,7 @@ function registerWebSocketClientApis(server) {
                             const nonce = pkg.nonce;
                             let result = null;
                             if (action === "GetTasks") {
-                                result = reply(get_tasks_1.GetTasks());
+                                result = get_tasks_1.GetTasks();
                             }
                             else if (action === "RunTask") {
                                 const data = pkg;

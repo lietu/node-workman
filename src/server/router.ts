@@ -103,7 +103,7 @@ function registerWebSocketClientApis(server: any) {
                     let result: any = null
 
                     if (action === "GetTasks") {
-                        result = reply(GetTasks())
+                        result = GetTasks()
                     } else if (action === "RunTask") {
                         const data = <RunTaskRequest>pkg
                         result = await RunTask(data.name, data.options)
