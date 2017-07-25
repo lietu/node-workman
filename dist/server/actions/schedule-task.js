@@ -8,9 +8,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-function ScheduleTask(name, when, args) {
+const manager_1 = require("../scheduler/manager");
+function ScheduleTask(name, when, options) {
     return __awaiter(this, void 0, void 0, function* () {
-        return Date.now().toString(16);
+        return manager_1.manager.add(when, {
+            name: name,
+            options: options
+        });
     });
 }
 exports.ScheduleTask = ScheduleTask;

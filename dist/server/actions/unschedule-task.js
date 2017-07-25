@@ -8,9 +8,20 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const manager_1 = require("../scheduler/manager");
 function UnscheduleTask(id) {
     return __awaiter(this, void 0, void 0, function* () {
-        return true;
+        const result = yield manager_1.manager.delete(id);
+        if (result) {
+            return {
+                result: true
+            };
+        }
+        else {
+            return {
+                error: "Task not found."
+            };
+        }
     });
 }
 exports.UnscheduleTask = UnscheduleTask;

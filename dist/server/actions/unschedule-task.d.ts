@@ -1,1 +1,1 @@
-export declare function UnscheduleTask(id: string): Promise<boolean>;
+export declare function UnscheduleTask(id: string): Promise<any>;

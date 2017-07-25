@@ -19,7 +19,9 @@
             ".(ts|tsx)": "./node_modules/ts-jest/preprocessor.js"
         },
         "testRegex": "src/(.*/)?__tests__/.*\\.(ts|tsx)$",
-        "setupFiles": ["./setup-jest.js"],
+        "setupFiles": [
+            "./setup-jest.js"
+        ],
         "moduleFileExtensions": [
             "ts",
             "tsx",
@@ -42,6 +44,7 @@
         "hapi": "^16.5.0",
         "hapi-async-handler": "^1.0.3",
         "hapi-plugin-websocket": "^1.2.13",
+        "require-dir": "^0.3.2",
         "source-map-support": "^0.4.15",
         "winston": "^2.3.1"
     }
