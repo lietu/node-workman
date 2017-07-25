@@ -119,14 +119,8 @@ POST /schedule/2020-02-02T20:20:20Z/work
 {"a":1, "b": 2}
 ```
 
-The response will contain a string for the ID of the scheduled task, that you
-can then use to delete it later if necessary. 
-
-```json
-{
-    "id": "15d7b577015.87d"
-}
-```
+The [response](#task-scheduled) will contain the ID of the scheduled task, that
+you can then use to delete it later if necessary. 
 
 
 ### DELETE /scheduled/{id}
@@ -135,14 +129,8 @@ can then use to delete it later if necessary.
 DELETE /scheduled/15d7b577015.87d
 ```
 
-The response will tell you if the given task was found or not in a simple
-object:
+The [response](#task-unscheduled) will tell you if the given task was found.
 
-```json
-{
-    "found": true
-}
-```
 
 
 ## WebSocket API
@@ -184,13 +172,13 @@ UTC timestamp in `YYYY-MM-DDTHH:MM:SSZ` -format (or `new Date().toISOString()`).
 < {"id": "<scheduled task id>"}
 ```
 
-Returns an ID you can store somewhere to later unschedule the task if necessary.
+[Returns an ID](#task-scheduled) you can store somewhere to later unschedule the task if necessary.
 
 
 ### Unschedule task
 
 Simply removes the task with the given ID from the schedule, if it exists.
-Return value indicates if the task was found or not.
+[Return value](#task-unscheduled) indicates if the task was found or not.
 
 ```json
 > {"id": "<scheduled task id>"}
@@ -228,6 +216,26 @@ process.
 
 ```json
 ["task", "anotherTask"]
+```
+
+### Task scheduled
+
+Returns the ID for the scheduled task
+
+```json
+{
+    "id": "15d7b577015.87d"
+}
+```
+
+### Task unscheduled
+
+Returns if the task was found
+
+```json
+{
+    "found": true
+}
 ```
 
 
