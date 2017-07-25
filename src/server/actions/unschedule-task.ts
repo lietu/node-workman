@@ -4,11 +4,11 @@ export async function UnscheduleTask(id: string): Promise<any> {
     const result = await manager.delete(id)
     if (result) {
         return {
-            result: true
+            found: true
         }
     } else {
         return {
-            error: "Task not found."
+            found: false
         }
     }
 }

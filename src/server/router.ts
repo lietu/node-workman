@@ -99,28 +99,32 @@ function registerWebSocketClientApis(server: any) {
                     const pkg = <WebSocketRequest>request.payload
                     const action = pkg.action
 
+                    const nonce = (<any>pkg).nonce
+                    let result: any = null
+
                     if (action === "GetTasks") {
-                        resolve(reply(GetTasks()))
+                        result = reply(GetTasks())
                     } else if (action === "RunTask") {
                         const data = <RunTaskRequest>pkg
-                        const result = await RunTask(data.name, data.options)
-                        if (data.nonce === undefined) {
-                            resolve(reply(result))
-                        } else {
-                            resolve(reply({
-                                nonce: data.nonce,
-                                result: result
-                            }))
-                        }
+                        result = await RunTask(data.name, data.options)
                     } else if (action === "ScheduleTask") {
                         const data = <ScheduleTaskRequest>pkg
-                        resolve(reply(await ScheduleTask(data.name, data.when, data.options)))
+                        result = await ScheduleTask(data.name, data.when, data.options)
                     } else if (action === "UnscheduleTask") {
                         const data = <UnscheduleTaskRequest>pkg
-                        resolve(reply(await UnscheduleTask(data.id)))
+                        result = await UnscheduleTask(data.id)
+                    } else {
+                        result = {
+                            error: `Bad request, unknown action ${action}`
+                        }
+                    }
+
+                    if (nonce === undefined) {
+                        resolve(reply(result))
                     } else {
                         resolve(reply({
-                            error: `Bad request, unknown action ${action}`
+                            nonce: nonce,
+                            result: result
                         }))
                     }
                 })

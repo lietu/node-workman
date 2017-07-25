@@ -14,12 +14,12 @@ function UnscheduleTask(id) {
         const result = yield manager_1.manager.delete(id);
         if (result) {
             return {
-                result: true
+                found: true
             };
         }
         else {
             return {
-                error: "Task not found."
+                found: false
             };
         }
     });

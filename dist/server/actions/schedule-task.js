@@ -11,10 +11,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const manager_1 = require("../scheduler/manager");
 function ScheduleTask(name, when, options) {
     return __awaiter(this, void 0, void 0, function* () {
-        return manager_1.manager.add(when, {
-            name: name,
-            options: options
-        });
+        return {
+            id: yield manager_1.manager.add(when, {
+                name: name,
+                options: options
+            })
+        };
     });
 }
 exports.ScheduleTask = ScheduleTask;

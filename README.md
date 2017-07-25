@@ -7,7 +7,8 @@ to be written in Node.js.
 It provides a simple API for both HTTP and WebSocket -clients, and attempts to
 do it's best to not overload any workers.
 
-Will also feature a task scheduler, but that is not yet complete.
+It also features a task scheduler, but there is no permanent storage available
+for it yet.
 
 The primary expectation is that you write your workers with Node.js using
 [node-workman-worker](https://github.com/lietu/node-workman-worker), however
@@ -102,6 +103,47 @@ POST /task/work
 The object can be as complex as necessary. The response from your worker will
 be returned in a JSON response.
 
+### POST /schedule/{when}/{name}
+
+Run task `{name}` at the time specified in UTC by `{when}` -parameter. The
+time should be specified in the `YYYY-MM-DDTHH:MM:SSZ` -format (or 
+`new Date().toISOString()`).
+
+The POST body should be the same options JSON object as for running the task.
+
+E.g. to run the task called `work` on *2nd of February 2020 at 20:20:20 UTC*
+and give it `{"a": 1, "b": 2}` -options:
+
+```
+POST /schedule/2020-02-02T20:20:20Z/work
+{"a":1, "b": 2}
+```
+
+The response will contain a string for the ID of the scheduled task, that you
+can then use to delete it later if necessary. 
+
+```json
+{
+    "id": "15d7b577015.87d"
+}
+```
+
+
+### DELETE /scheduled/{id}
+
+```
+DELETE /scheduled/15d7b577015.87d
+```
+
+The response will tell you if the given task was found or not in a simple
+object:
+
+```json
+{
+    "found": true
+}
+```
+
 
 ## WebSocket API
 
@@ -110,7 +152,6 @@ efficient WebSocket -API to handle tasks.
 
 With the default configuration the server listens to the address
 `ws://localhost:9999/websocket`.
-
 
 ### Get tasks
 
@@ -130,8 +171,37 @@ To run the task called `work` and give it `{"a": 1, "b": 2}` -options:
 < ...
 ```
 
+The options object can be as complex as necessary. 
+
+
+### Schedule task
+
+Mostly the same as the `RunTask` action above, but additionally takes a `when`
+UTC timestamp in `YYYY-MM-DDTHH:MM:SSZ` -format (or `new Date().toISOString()`).
+
+```json
+> {"when": "2020-02-02T20:20:20Z", "action": "ScheduleTask", "name": "work", "options": {"a": 1, "b": 2}}
+< {"id": "<scheduled task id>"}
+```
+
+Returns an ID you can store somewhere to later unschedule the task if necessary.
+
+
+### Unschedule task
+
+Simply removes the task with the given ID from the schedule, if it exists.
+Return value indicates if the task was found or not.
+
+```json
+> {"id": "<scheduled task id>"}
+< {"found": true}
+```
+
+
+### Nonces for WebSocket requests
+
 If you want the response you will likely also want to provide a `nonce` so you
-know which task you're getting the response for, in which case the response
+know which request you're getting the response for, in which case the response
 format will be adapted to the following:
 
 ```json
@@ -147,9 +217,7 @@ function getNonce() {
 }
 ```
 
-The options object can be as complex as necessary. If no nonce was provided
-the result from the worker is returned unmodified and unwrapped. 
-
+This applies to all requests via the WebSocket interface. 
 
 ## Response formats
 

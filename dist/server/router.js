@@ -86,33 +86,35 @@ function registerWebSocketClientApis(server) {
                         return __awaiter(this, void 0, void 0, function* () {
                             const pkg = request.payload;
                             const action = pkg.action;
+                            const nonce = pkg.nonce;
+                            let result = null;
                             if (action === "GetTasks") {
-                                resolve(reply(get_tasks_1.GetTasks()));
+                                result = reply(get_tasks_1.GetTasks());
                             }
                             else if (action === "RunTask") {
                                 const data = pkg;
-                                const result = yield run_task_1.RunTask(data.name, data.options);
-                                if (data.nonce === undefined) {
-                                    resolve(reply(result));
-                                }
-                                else {
-                                    resolve(reply({
-                                        nonce: data.nonce,
-                                        result: result
-                                    }));
-                                }
+                                result = yield run_task_1.RunTask(data.name, data.options);
                             }
                             else if (action === "ScheduleTask") {
                                 const data = pkg;
-                                resolve(reply(yield schedule_task_1.ScheduleTask(data.name, data.when, data.options)));
+                                result = yield schedule_task_1.ScheduleTask(data.name, data.when, data.options);
                             }
                             else if (action === "UnscheduleTask") {
                                 const data = pkg;
-                                resolve(reply(yield unschedule_task_1.UnscheduleTask(data.id)));
+                                result = yield unschedule_task_1.UnscheduleTask(data.id);
+                            }
+                            else {
+                                result = {
+                                    error: `Bad request, unknown action ${action}`
+                                };
+                            }
+                            if (nonce === undefined) {
+                                resolve(reply(result));
                             }
                             else {
                                 resolve(reply({
-                                    error: `Bad request, unknown action ${action}`
+                                    nonce: nonce,
+                                    result: result
                                 }));
                             }
                         });
